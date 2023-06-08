@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+            - Path=/api/v1/order/**
+        - id: product-service
+          uri: lb://product-service
+          predicates:
+            - Path=/api/v1/product/**
+        - id: inventory-service
+          uri: lb://inventory-service
+          predicates:
+            - Path=/api/v1/inventory/**
+  main:
+    web-application-type: reactive
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8093/eureka/
+logging:
+  level:
+    root: INFO
+    org.springframework.cloud.gateway.handler.RoutePredicateHandlerMapping: INFO
+    org.springframework.cloud.gateway: TRACE
+
+
+
+server:
+  port: 8095
